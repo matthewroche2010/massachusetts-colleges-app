@@ -1,0 +1,84 @@
+{
+  "name": "paperless-parts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server --port 9600 --hot",
+    "lint": "eslint src --ext js",
+    "stylelint": "stylelint **/*.*css --ip **/*.min.css -s scss",
+    "storybook": "start-storybook",
+    "test": "jest --env=jsdom",
+    "test-watch": "jest --env=jsdom --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mroche74/paperless-parts.git"
+  },
+  "author": "Matthew Roche",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mroche74/paperless-parts/issues"
+  },
+  "homepage": "https://github.com/mroche74/paperless-parts#readme",
+  "jest": {
+    "verbose": true,
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/filemock.js",
+      "\\.(css|scss|less)$": "<rootDir>/__mocks__/stylemock.js"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint && concurrently npm:stylelint && concurrently npm:test"
+    }
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.16.7",
+    "@reduxjs/toolkit": "^1.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-google-maps": "^9.4.5",
+    "react-redux": "^7.2.6",
+    "styled-components": "^5.3.3",
+    "whatwg-fetch": "^3.6.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.8",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-react": "^7.16.7",
+    "@storybook/react": "^6.4.16",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.3",
+    "concurrently": "^5.0.1",
+    "css-loader": "^3.3.2",
+    "eslint": "^7.14.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-react-important-stuff": "^2.0.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.21.5",
+    "gulp": "^4.0.2",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "husky": "^3.1.0",
+    "jest": "^27.4.7",
+    "jsdom": "^19.0.0",
+    "node-sass": "^4.14.1",
+    "react-test-renderer": "^17.0.2",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.0.1",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^20.0.0",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.3",
+    "webpack-stream": "^7.0.0"
+  }
+}

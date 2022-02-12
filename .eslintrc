@@ -1,0 +1,28 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "google"
+  ],
+  "plugins": ["babel"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "ignorePatterns": [
+    "**/*.json",
+    "**/standalone-config/*.js"
+  ],
+  "settings": {
+    "react": {
+      "version": "^16.12.0"
+    }
+  },
+  "rules": {
+    "require-jsdoc": 0
+  }
+}

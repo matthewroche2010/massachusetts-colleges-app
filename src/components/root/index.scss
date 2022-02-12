@@ -1,0 +1,82 @@
+$pageHeaderHeight: 40px;
+$tablePaneControlsHeight: 34px;
+$mapHeightSmall: calc(60vh - 38px);
+$mapHeightLarge: calc(100vh - 74px);
+
+#pageHeader {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  height: $pageHeaderHeight;
+  width: 100vw;
+  color: #fff;
+  z-index: 1;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.4);
+
+  *:not(input) {
+    color: #fff;
+    font-variant: small-caps;
+    letter-spacing: 2px;
+  }
+}
+
+#tablePane {
+  position: fixed;
+  width: 100vw;
+  box-shadow: 0 -4px 5px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  margin: 0;
+  z-index: 50;
+  transition: all 1s;
+  overflow: hidden !important;
+
+  &.max {
+    height: 40vh;
+    top: 60vh;
+    overflow: auto;
+  }
+
+  &.min {
+    height: 36px;
+    top: calc(100vh - 36px);
+    overflow: hidden;
+  }
+
+  &.fullPage {
+    box-shadow: none;
+    height: calc(100vh - 40px);
+    top: $pageHeaderHeight;
+    bottom: 100vh;
+  }
+
+  #tablePaneControls {
+    height: $tablePaneControlsHeight;
+    background-color: #fff;
+  }
+}
+
+#scrollableTableWrapper {
+  background-color: #fff;
+  height: calc(100% - 28px);
+  width: 100%;
+  overflow: auto;
+}
+
+#mapPane {
+  position: fixed;
+  top: $pageHeaderHeight;
+  left: 0;
+  width: 100vw;
+  transition: height 1s;
+
+  &.max {
+    height: $mapHeightSmall;
+  }
+
+  &.min {
+    height: $mapHeightLarge;
+  }
+}
