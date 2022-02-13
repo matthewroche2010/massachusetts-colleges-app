@@ -65,6 +65,7 @@ export const Root = () => {
     newJoinedData.sort(
         sortObjectsByProperty(`${sortField}`),
     );
+    dispatch(setPage(1));
     setJoinedData(newJoinedData);
   }, [sortField]);
 
@@ -80,6 +81,7 @@ export const Root = () => {
       );
       return tableDataObject;
     });
+    dispatch(setPage(1));
     setTabularData(tableData);
     const latLons = formatMapData(filteredData);
     setMapData(latLons);
@@ -97,11 +99,6 @@ export const Root = () => {
 
   return (
     <div>
-      <button
-        onClick={() => dispatch(setPage(7))}
-      >
-        Change to Last Page
-      </button>
       <div id="pageHeader">
         <h4 style={{color: `rgb(${colors.default})`}}>
           Massachusetts College Scorecard Data
