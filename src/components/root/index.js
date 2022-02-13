@@ -3,9 +3,9 @@ import {Table} from '../table';
 import {dataConsolidationHelper}
 from '../../utilities/helpers/dataConsolidationHelper';
 import {createTableDataRowObject}
-from '../../utilities/helpers/tableDataHelper';
+  from '../../utilities/helpers/tableDataHelper';
 import {filterArrayOfObjects, sortObjectsByProperty}
-from '../../utilities/helpers/pureFunctions';
+  from '../../utilities/helpers/pureFunctions';
 import {InfoWindow} from '../infoWindow';
 import {Map} from '../googleMap';
 import {FlexRow} from '../flexContainers';
@@ -13,14 +13,15 @@ import {MinMaxButtons} from '../minMaxButtons';
 import {DataFilterControls} from '../dataFilterControls';
 import {colors} from '../../assets/colors';
 import {readableFieldMapping as fields}
-from '../../utilities/dataMapping/readableFieldMapping';
+  from '../../utilities/dataMapping/readableFieldMapping';
+import {useDispatch} from 'react-redux';
+import {setPage} from '../table/tableSlice';
 import '../../assets/index.scss';
 import './index.scss';
-
+import {setVisible} from '../infoWindow/infoWindowSlice';
 const tableColumnWidths = [
   '35%', '10%', '10%', '20%', '15%', '10%', '5%',
 ];
-
 
 export const Root = () => {
   const [joinedData, setJoinedData] = useState(null);
@@ -31,6 +32,7 @@ export const Root = () => {
   const [minMaxState, setMinMaxState] = useState('max');
   const [fullPageState, setFullPageState] = useState('min');
   const [filterValue, setFilterValue] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const dataPromise = dataConsolidationHelper();
@@ -47,11 +49,10 @@ export const Root = () => {
     }
 
     const tableData = joinedData.map((college) => {
-      const tableDataObject = createTableDataRowObject(
+      return createTableDataRowObject(
           college,
-          onTableRowClicked,
+          onCollegeClicked,
       );
-      return tableDataObject;
     });
     setTabularData(tableData);
   }, [joinedData]);
@@ -75,7 +76,7 @@ export const Root = () => {
     const tableData = filteredData.map((college) => {
       const tableDataObject = createTableDataRowObject(
           college,
-          onTableRowClicked,
+          onCollegeClicked,
       );
       return tableDataObject;
     });
@@ -84,15 +85,10 @@ export const Root = () => {
     setMapData(latLons);
   }, [filterValue]);
 
-  const onTableRowClicked = (recordId) => {
-    const infoWindowTarget =
-      joinedData.find((item) => item.recordId === recordId);
-    setInfoWindowTarget(infoWindowTarget);
-  };
-
-  const onMarkerClick = (recordId) => {
-    const record = joinedData.find((item) => item['recordId'] === recordId);
+  const onCollegeClicked = (recordId) => {
+    const record = joinedData.find((item) => item.recordId === recordId);
     setInfoWindowTarget(record);
+    dispatch( setVisible(true));
   };
 
   if (!joinedData || !tabularData || !mapData) {
@@ -101,6 +97,11 @@ export const Root = () => {
 
   return (
     <div>
+      <button
+        onClick={() => dispatch(setPage(7))}
+      >
+        Change to Last Page
+      </button>
       <div id="pageHeader">
         <h4 style={{color: `rgb(${colors.default})`}}>
           Massachusetts College Scorecard Data
@@ -115,12 +116,10 @@ export const Root = () => {
         id="mapPane"
         className={minMaxState}
       >
-
         <Map
           records={mapData.length > 0 ? mapData : []}
-          onMarkerClick={onMarkerClick}
+          onMarkerClick={onCollegeClicked}
         />
-
       </div>
       <div
         id="tablePane"
@@ -193,12 +192,10 @@ export const Root = () => {
           }
         </div>
       </div>
-      {infoWindowTarget &&
       <InfoWindow
         data={infoWindowTarget}
         onClose={() => setInfoWindowTarget(null)}
       />
-      }
     </div>
   );
 };

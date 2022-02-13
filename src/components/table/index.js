@@ -1,23 +1,21 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import {TableColumnGroup} from '../tableColumnGroup';
 import {TableHeader} from '../tableHeader';
 import {TableBody} from '../tableBody';
 import {TableFooter} from '../tableFooter/index';
 import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
+import {setPage} from './tableSlice';
 
 const recordsPerPage = 30;
 
 export const Table = ({tableData, columnWidths, scrollTop, ...rest}) => {
-  const [page, setPage] = useState(1);
   const headers = [...tableData[0].values];
+  const page = useSelector((state) => state.tablePage.value);
+  const dispatch = useDispatch();
 
   const pages = Math.ceil(tableData.length / recordsPerPage);
-
-  const onPageChange = (page) => {
-    setPage(parseInt(page, 10));
-    scrollTop();
-  };
 
   const visibleRows = tableData.filter((item, index) =>
     index >= (page - 1) * recordsPerPage && index < page * recordsPerPage,
@@ -26,7 +24,7 @@ export const Table = ({tableData, columnWidths, scrollTop, ...rest}) => {
   return (
     <StyledTable>
       {columnWidths &&
-          <TableColumnGroup columnWidths={columnWidths}/>
+      <TableColumnGroup columnWidths={columnWidths}/>
       }
       <TableHeader headers={headers} {...rest}/>
       <TableBody
@@ -36,12 +34,11 @@ export const Table = ({tableData, columnWidths, scrollTop, ...rest}) => {
         colSpan={headers.length}
         pageCount={pages}
         currentPage={page}
-        onPageChange={onPageChange}
+        onPageChange={(newPage) => dispatch(setPage(newPage))}
         recordsPerPage={recordsPerPage}
       />
     </StyledTable>
-  )
-  ;
+  );
 };
 
 const StyledTable = styled.table`

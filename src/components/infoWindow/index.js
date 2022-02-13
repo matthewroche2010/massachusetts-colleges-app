@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {HeadlessTable} from '../headlessTable';
 import {Button} from '../button';
 import styled from 'styled-components';
@@ -9,15 +9,15 @@ import PropTypes from 'prop-types';
 import {ModalContainer} from '../modalContainer';
 import {colors} from '../../assets/colors';
 
-export const InfoWindow = ({data, onClose}) => {
-  const [isVisible, setVisible] = useState(false);
+import {useSelector, useDispatch} from 'react-redux';
+import {setVisible} from './infoWindowSlice';
 
-  useEffect(() => {
-    setVisible(true);
-  }, []);
+export const InfoWindow = ({data, onClose}) => {
+  const isVisible = useSelector((state) => state.infoWindow.value);
+  const dispatch = useDispatch();
 
   const closeModal = () => {
-    setVisible(false);
+    dispatch( setVisible(false));
     window.setTimeout(() => {
       onClose();
     }, 1000);
