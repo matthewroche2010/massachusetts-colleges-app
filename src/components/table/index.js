@@ -12,10 +12,10 @@ export const Table = ({
   tableData,
   columnWidths,
   scrollTop,
-  currentPage,
+  currentPage = 1,
   onSetPage,
   onSort,
-  sortField,
+  sortField = '0',
   ...rest
 }) => {
   const [rowData, setRowData] = useState(tableData.rows);
@@ -30,7 +30,9 @@ export const Table = ({
 
   useEffect( () => {
     setSortFieldIndex(sortField);
-    scrollTop();
+    if (scrollTop) {
+      scrollTop();
+    }
   }, [sortField]);
 
   useEffect( () => {
@@ -39,10 +41,11 @@ export const Table = ({
       index >= (page - 1) * recordsPerPage && index < page * recordsPerPage,
     );
     setRowData(newRowData);
+    scrollTop();
   }, [page]);
 
   useEffect(() => {
-    if (sortFieldIndex === null) {
+    if (sortFieldIndex == null) {
       return;
     }
     const newRowData = [...rowData];
