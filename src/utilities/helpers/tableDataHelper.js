@@ -5,6 +5,40 @@ import {readableFieldMapping as fields}
 from '../dataMapping/readableFieldMapping';
 import infoIcon from '../../assets/info-icon.svg';
 
+export const createTableHeaders = () => {
+  return (
+    [
+      {
+        id: fields.INSTNM,
+        isSortable: true,
+      },
+      {
+        id: fields.CITY,
+        isSortable: true,
+      },
+      {
+        id: fields.ZIP,
+        isSortable: true,
+      },
+      {
+        id: fields.INSTURL,
+        isSortable: true,
+      },
+      {
+        id: fields.HIGHDEG,
+        isSortable: true,
+      },
+      {
+        id: fields.PROGRAMCOUNT,
+        isSortable: true,
+      },
+      {
+        id: 'Info',
+      },
+    ]
+  );
+};
+
 export const createTableDataRowObject = (
     collegeObject,
     onClickInfo,
@@ -13,50 +47,36 @@ export const createTableDataRowObject = (
     recordId: collegeObject.recordId,
     values: [
       {
-        key: fields.INSTNM,
         value: collegeObject[fields.INSTNM],
-        isSortable: true,
       },
       {
-        key: fields.CITY,
         value: collegeObject[fields.CITY],
-        isSortable: true,
       },
       {
-        key: fields.ZIP,
         value: collegeObject[fields.ZIP],
-        isSortable: true,
       },
       {
-        key: fields.INSTURL,
         value: getHomePageLink(collegeObject[fields.INSTURL].toLowerCase()),
-        isSortable: true,
+        sortValue: collegeObject[fields.INSTURL].toLowerCase(),
         css: {
           textOverflow: 'ellipsis',
         },
       },
       {
-        key: fields.HIGHDEG,
         value: collegeObject[fields.HIGHDEG],
-        isSortable: true,
       },
       {
-        key: fields.PROGRAMCOUNT,
-        value: getPrograms(
-            collegeObject[fields.PROGRAMS],
-        ),
-        isSortable: true,
+        value: collegeObject[fields.PROGRAMS].length,
+        sortValue: collegeObject[fields.PROGRAMS].length,
         css: {
           textAlign: 'center',
         },
       },
       {
-        key: 'Info',
         value: getActionButtons(
             collegeObject.recordId,
             onClickInfo,
         ),
-        isSortable: false,
         css: {
           textAlign: 'center',
         },
@@ -76,21 +96,6 @@ const getActionButtons = (recordId, onClickInfo) => {
     >
       <img src={infoIcon}/>
     </Button>
-  );
-};
-
-const getPrograms = (programs) => {
-  if (!programs || programs.length === 0) {
-    return (
-      <p>N/A</p>
-    );
-  }
-  if (!Array.isArray(programs)) {
-    return <p>{programs}</p>;
-  }
-  const title = programs.join('\n');
-  return (
-    <p title={title}>{programs.length}</p>
   );
 };
 

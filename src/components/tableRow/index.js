@@ -7,9 +7,9 @@ export const TableRow = ({rowData, onClick}) => (
   <StyledRow
     onClick={onClick}
   >
-    {rowData.map( (item) => (
+    {rowData.map( (item, index) => (
       <TableCell
-        key={item.key}
+        key={`${index}-${item.value}`}
         style={item.css ? item.css : {}}
       >
         {item.value}

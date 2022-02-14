@@ -2,32 +2,36 @@ import {collegeDegreeMapping} from '../dataMapping/collegeDegreeMapping';
 import {collegeCarnegieClassificationMapping}
 from '../dataMapping/collegeCarnegieClassificationMapping';
 import {collegeLocaleMapping} from '../dataMapping/collegeLocaleMapping';
-import AjaxHelper from '../helpers/ajaxHelper';
 import {readableFieldMapping} from '../dataMapping/readableFieldMapping';
-
-const handleError = (response) => {
-  alert('Error: ' + response.status + ' ' + response.statusText);
-};
+import 'whatwg-fetch';
 
 export const dataConsolidationHelper = () => {
   const collegeDataPromise = new Promise((resolve, reject) => {
-    AjaxHelper.xhr('ma_schools.json', (response) => {
-      if (response.error) {
-        handleError(response);
-        reject(new Error('xhr error'));
-      }
-      resolve(response);
-    });
+    fetch('ma_schools.json')
+        .then((response) => {
+          if (!response.ok) {
+            response.text().then((data) =>
+              reject(new Error(`${response.status}: ${response.statusText}`)));
+            return;
+          }
+          response.text()
+              .then((text) =>
+            text ? resolve(JSON.parse(text)) : resolve({}));
+        });
   });
 
   const degreeProgramPromise = new Promise((resolve, reject) => {
-    AjaxHelper.xhr('programs.json', (response) => {
-      if (response.error) {
-        handleError(response);
-        reject(new Error('xhr error'));
-      }
-      resolve(response);
-    });
+    fetch('programs.json')
+        .then((response) => {
+          if (!response.ok) {
+            response.text().then((data) =>
+              reject(new Error(`${response.status}: ${response.statusText}`)));
+            return;
+          }
+          response.text()
+              .then((text) =>
+            text ? resolve(JSON.parse(text)) : resolve({}));
+        });
   });
 
   return new Promise((resolve, reject) => {

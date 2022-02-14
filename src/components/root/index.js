@@ -2,10 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Table} from '../table';
 import {dataConsolidationHelper}
 from '../../utilities/helpers/dataConsolidationHelper';
-import {createTableDataRowObject}
-  from '../../utilities/helpers/tableDataHelper';
-import {filterArrayOfObjects, sortObjectsByProperty}
-  from '../../utilities/helpers/pureFunctions';
+import {createTableDataRowObject, createTableHeaders}
+from '../../utilities/helpers/tableDataHelper';
 import {InfoWindow} from '../infoWindow';
 import {Map} from '../googleMap';
 import {FlexRow} from '../flexContainers';
@@ -13,9 +11,8 @@ import {MinMaxButtons} from '../minMaxButtons';
 import {DataFilterControls} from '../dataFilterControls';
 import {colors} from '../../assets/colors';
 import {readableFieldMapping as fields}
-  from '../../utilities/dataMapping/readableFieldMapping';
+from '../../utilities/dataMapping/readableFieldMapping';
 import {useDispatch} from 'react-redux';
-import {setPage} from '../table/tableSlice';
 import '../../assets/index.scss';
 import './index.scss';
 import {setVisible} from '../infoWindow/infoWindowSlice';
@@ -27,7 +24,7 @@ export const Root = () => {
   const [joinedData, setJoinedData] = useState(null);
   const [tabularData, setTabularData] = useState(null);
   const [mapData, setMapData] = useState([]);
-  const [sortField, setSortField] = useState('');
+  const [sortFieldIndex, setSortFieldIndex] = useState('0');
   const [infoWindowTarget, setInfoWindowTarget] = useState(null);
   const [minMaxState, setMinMaxState] = useState('max');
   const [fullPageState, setFullPageState] = useState('min');
@@ -48,44 +45,18 @@ export const Root = () => {
       return;
     }
 
+    const tableHeaders = createTableHeaders();
     const tableData = joinedData.map((college) => {
       return createTableDataRowObject(
           college,
           onCollegeClicked,
       );
     });
-    setTabularData(tableData);
-  }, [joinedData]);
-
-  useEffect(() => {
-    if (!joinedData) {
-      return;
-    }
-    const newJoinedData = [...joinedData];
-    newJoinedData.sort(
-        sortObjectsByProperty(`${sortField}`),
-    );
-    dispatch(setPage(1));
-    setJoinedData(newJoinedData);
-  }, [sortField]);
-
-  useEffect(() => {
-    if (!joinedData) {
-      return;
-    }
-    const filteredData = filterArrayOfObjects(joinedData, filterValue);
-    const tableData = filteredData.map((college) => {
-      const tableDataObject = createTableDataRowObject(
-          college,
-          onCollegeClicked,
-      );
-      return tableDataObject;
+    setTabularData({
+      headers: tableHeaders,
+      rows: tableData,
     });
-    dispatch(setPage(1));
-    setTabularData(tableData);
-    const latLons = formatMapData(filteredData);
-    setMapData(latLons);
-  }, [filterValue]);
+  }, [joinedData]);
 
   const onCollegeClicked = (recordId) => {
     const record = joinedData.find((item) => item.recordId === recordId);
@@ -127,7 +98,6 @@ export const Root = () => {
           vertical="center"
           horizontal="space-between"
         >
-
           <FlexRow
             id="tablePaneControls"
             vertical="center"
@@ -140,7 +110,7 @@ export const Root = () => {
                 tableScrollToTop();
               }}
             />
-            {!tabularData || tabularData.length === 0 &&
+            {!tabularData || tabularData.rows.length === 0 &&
             <h5>
               No Data Found
             </h5>
@@ -164,15 +134,14 @@ export const Root = () => {
             }
           </FlexRow>
         </FlexRow>
-
         <div id="scrollableTableWrapper">
-          {tabularData && tabularData.length > 0 ?
+          {tabularData && tabularData.rows.length > 0 ?
             (
               <Table
                 tableData={tabularData}
-                sortField={sortField}
+                sortField={sortFieldIndex}
                 columnWidths={tableColumnWidths}
-                onSortFieldChange={setSortField}
+                onSort={setSortFieldIndex}
                 scrollTop={tableScrollToTop}
               />
             ) : (

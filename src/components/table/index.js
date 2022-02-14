@@ -1,44 +1,115 @@
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import {TableColumnGroup} from '../tableColumnGroup';
 import {TableHeader} from '../tableHeader';
 import {TableBody} from '../tableBody';
 import {TableFooter} from '../tableFooter/index';
 import PropTypes from 'prop-types';
-import {useSelector, useDispatch} from 'react-redux';
-import {setPage} from './tableSlice';
 
 const recordsPerPage = 30;
 
-export const Table = ({tableData, columnWidths, scrollTop, ...rest}) => {
-  const headers = [...tableData[0].values];
-  const page = useSelector((state) => state.tablePage.value);
-  const dispatch = useDispatch();
+export const Table = ({
+  tableData,
+  columnWidths,
+  scrollTop,
+  currentPage,
+  onSetPage,
+  onSort,
+  sortField,
+  ...rest
+}) => {
+  const [rowData, setRowData] = useState(tableData.rows);
+  const [page, setPage] = useState(currentPage || 1);
+  const [sortFieldIndex, setSortFieldIndex] = useState(sortField);
 
-  const pages = Math.ceil(tableData.length / recordsPerPage);
-
-  const visibleRows = tableData.filter((item, index) =>
+  const headers = tableData.headers;
+  const pages = Math.ceil(tableData.rows.length / recordsPerPage);
+  const visibleRows = useRef(tableData.rows.filter((item, index) =>
     index >= (page - 1) * recordsPerPage && index < page * recordsPerPage,
-  );
+  ));
+
+  useEffect( () => {
+    setSortFieldIndex(sortField);
+    scrollTop();
+  }, [sortField]);
+
+  useEffect( () => {
+    const newRowData = [...rowData];
+    visibleRows.current = newRowData.filter((item, index) =>
+      index >= (page - 1) * recordsPerPage && index < page * recordsPerPage,
+    );
+    setRowData(newRowData);
+  }, [page]);
+
+  useEffect(() => {
+    if (sortFieldIndex === null) {
+      return;
+    }
+    const newRowData = [...rowData];
+    newRowData.sort(
+        sortTableRowsByField(sortFieldIndex),
+    );
+    visibleRows.current = newRowData.filter((item, index) =>
+      index >= (page - 1) * recordsPerPage && index < page * recordsPerPage,
+    );
+    setRowData(newRowData);
+    setPage(1);
+  }, [sortFieldIndex]);
+
+  const onSortDataClicked = (index) => {
+    if (onSort) {
+      onSort(index);
+      return;
+    }
+    setSortFieldIndex(index);
+  };
 
   return (
     <StyledTable>
       {columnWidths &&
       <TableColumnGroup columnWidths={columnWidths}/>
       }
-      <TableHeader headers={headers} {...rest}/>
+      <TableHeader
+        headers={headers}
+        onSortFieldChange={onSortDataClicked}
+        sortFieldIndex={sortFieldIndex}
+        {...rest}
+      />
       <TableBody
-        tableData={visibleRows}
+        tableData={visibleRows.current}
       />
       <TableFooter
         colSpan={headers.length}
         pageCount={pages}
         currentPage={page}
-        onPageChange={(newPage) => dispatch(setPage(newPage))}
+        onPageChange={setPage}
         recordsPerPage={recordsPerPage}
       />
     </StyledTable>
   );
+};
+
+const sortTableRowsByField = (index) => {
+  let sortOrder = 1;
+  if (index[0] === '-') {
+    sortOrder = -1;
+    index = index.substr(1);
+  }
+
+  return function(a, b) {
+    const aObj = a.values[index];
+    const bObj = b.values[index];
+
+    const aValue = aObj.sortValue ? aObj.sortValue : aObj.value;
+    const bValue = bObj.sortValue ? bObj.sortValue : bObj.value;
+    const result = (aValue < bValue) ?
+      -1 :
+      (aValue > bValue) ?
+        1 :
+        0;
+
+    return result * sortOrder;
+  };
 };
 
 const StyledTable = styled.table`
@@ -90,9 +161,13 @@ const StyledTable = styled.table`
 
 Table.propTypes =
   {
-    tableData: PropTypes.arrayOf(PropTypes.object),
+    tableData: PropTypes.object,
     scrollTop: PropTypes.func,
     columnWidths: PropTypes.array,
+    currentPage: PropTypes.number,
+    onSetPage: PropTypes.func,
+    sortField: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onSort: PropTypes.func,
     rest: PropTypes.any,
   }
 ;

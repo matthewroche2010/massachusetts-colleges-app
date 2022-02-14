@@ -1,5 +1,5 @@
 {
-  "name": "paperless-parts",
+  "name": "massachusetts-colleges-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mroche74/paperless-parts.git"
+    "url": "git+https://github.com/matthewroche2010/massachusetts-colleges-app.git"
   },
   "author": "Matthew Roche",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mroche74/paperless-parts/issues"
+    "url": "https://github.com/matthewroche2010/massachusetts-colleges-app/issues"
   },
-  "homepage": "https://github.com/mroche74/paperless-parts#readme",
+  "homepage": "https://github.com/matthewroche2010/massachusetts-colleges-app#readme",
   "jest": {
     "verbose": true,
     "moduleDirectories": [

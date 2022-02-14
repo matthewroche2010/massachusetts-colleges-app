@@ -1,110 +1,134 @@
-export const tableData = [
-  {
-    recordId: '00001',
-    values:
+export const tableData = {
+  headers: [
+    {
+      id: 'field 1',
+      isSortable: true,
+    },
+    {
+      id: 'field 2',
+    },
+    {
+      id: 'field 3',
+    },
+    {
+      id: 'field 4',
+      isSortable: true,
+    },
+    {
+      id: 'field 5',
+    },
+    {
+      id: 'field 6',
+    },
+  ],
+  rows: [
+    {
+      recordId: '00001',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1a', sortValue: 'value1'},
+        {value: 'value2'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-  {
-    recordId: '00002',
-    values:
+    },
+    {
+      recordId: '00002',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1s', sortValue: 'value1'},
+        {value: 'value2'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-  {
-    recordId: '00003',
-    values:
+    },
+    {
+      recordId: '00003',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1d', sortValue: 'value1'},
+        {value: 'value2a'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-  {
-    recordId: '00004',
-    values:
+    },
+    {
+      recordId: '00004',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1e', sortValue: 'value1'},
+        {value: 'value2b'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-  {
-    recordId: '00005',
-    values:
+    },
+    {
+      recordId: '00005',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1t', sortValue: 'value1'},
+        {value: 'value2c'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4z', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-  {
-    recordId: '00006',
-    values:
+    },
+    {
+      recordId: '00006',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1l', sortValue: 'value1'},
+        {value: 'value2d'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-  {
-    recordId: '00007',
-    values:
+    },
+    {
+      recordId: '00007',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1i', sortValue: 'value1'},
+        {value: 'value2e'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-  {
-    recordId: '00008',
-    values:
+    },
+    {
+      recordId: '00008',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1q', sortValue: 'value1'},
+        {value: 'value2f'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-  {
-    recordId: '00009',
-    values:
+    },
+    {
+      recordId: '00009',
+      values:
       [
-        {key: 'field 1', value: 'value1'},
-        {key: 'field 2', value: 'value2'},
-        {key: 'field 3', value: 'value3'},
-        {key: 'field 4', value: 'value4'},
-        {key: 'field 5', value: 'value5'},
-        {key: 'field 6', value: 'value6'},
+        {value: 'field 1y', sortValue: 'value1'},
+        {value: 'value2g'},
+        {value: 'value3', sortValue: 'value3'},
+        {value: 'value4a', sortValue: 'value4'},
+        {value: 'value5'},
+        {value: 'value6', sortValue: 0},
       ],
-  },
-];
+    },
+  ],
+};

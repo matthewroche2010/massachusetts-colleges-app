@@ -25,7 +25,7 @@ export const TableFooter =({
             <ControlsWrapper>
               Viewing Page
               <Select
-                value={currentPage}
+                value={parseInt(currentPage, 10)}
                 onChange={onPageChange}
               >
                 {options}

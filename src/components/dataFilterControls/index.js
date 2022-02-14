@@ -14,7 +14,7 @@ export const DataFilterControls = ({
     <FlexRow
       horizontal="center"
       vertical="center"
-      css={{width: '100%'}}
+      css={{width: '100%', marginLeft: 8}}
     >
       <label>{label}</label>
       <StyledTextInput

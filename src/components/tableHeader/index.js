@@ -1,54 +1,31 @@
 import React from 'react';
 import {TableCell} from '../tableCell';
-import {FlexRow, FlexCol} from '../flexContainers';
-import {colors} from '../../assets/colors';
+import {FlexRow} from '../flexContainers';
 import styled from 'styled-components';
-import upArrow from '../../assets/up-icon.svg';
-import downArrow from '../../assets/down-icon.svg';
 import PropTypes from 'prop-types';
+import {TableHeaderSortControls} from '../tableHeaderSortControls';
 
-export const TableHeader = ({headers, onSortFieldChange, ...rest}) => {
-  const sortField = rest.sortField;
-
+export const TableHeader = ({headers, sortFieldIndex, onSortFieldChange}) => {
   return (
     <StyledTHead>
       <tr>
-        {headers.map( (field) => {
+        {headers.map( (field, index) => {
           return (
             <TableCell
-              key={field.key}
+              key={field.id}
               isHeadCell={true}
             >
               <FlexRow
                 vertical="center"
                 horizontal="space-between"
               >
-                {field.key}
+                {field.id}
                 {field.isSortable &&
-                <FlexCol
-                  vertical='center'
-                  horizontal='flex-end'
-                  css={{width: `22px`}}
-                >
-                  <div
-                    style={ sortField === field.key ?
-                      {backgroundColor: `rgb(${colors.success})`} :
-                      {}
-                    }
-                    onClick={()=>onSortFieldChange(field.key)}
-                  >
-                    <img style={{cursor: 'pointer'}} src={upArrow}/>
-                  </div>
-                  <div
-                    style={ sortField === `-${field.key}` ?
-                      {backgroundColor: `rgb(${colors.success})`} :
-                      {}
-                    }
-                    onClick={()=>onSortFieldChange('-'+field.key)}
-                  >
-                    <img style={{cursor: 'pointer'}} src={downArrow}/>
-                  </div>
-                </FlexCol>
+                  <TableHeaderSortControls
+                    index={index}
+                    onChange={onSortFieldChange}
+                    sortFieldIndex={sortFieldIndex}
+                  />
                 }
               </FlexRow>
             </TableCell>
@@ -65,6 +42,6 @@ const StyledTHead = styled.thead`
 
 TableHeader.propTypes = {
   headers: PropTypes.array,
+  sortFieldIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onSortFieldChange: PropTypes.func,
-  rest: PropTypes.any,
 };
