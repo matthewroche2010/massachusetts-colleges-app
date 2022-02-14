@@ -3,7 +3,11 @@ import {FlexCol} from '../flexContainers';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-export const TableHeaderSortControls = ({index, sortFieldIndex, onChange}) => {
+export const TableHeaderSortControls = ({
+  index = '0',
+  sortFieldIndex = '0',
+  onChange,
+}) => {
   return (
     <FlexCol
       vertical='center'
